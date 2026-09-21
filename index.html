@@ -171,7 +171,7 @@
   .lane{
     display:flex;
     align-items:center;
-    height:40px;
+    height:56px;
     position:relative;
     border-bottom: 1px dashed rgba(255,255,255,0.18);
   }
@@ -199,15 +199,16 @@
   .horse{
     position:absolute;
     top:50%;
-    transform: translate(-6px, -50%);
-    font-size:22px;
+    transform: translate(-8px, -50%);
+    font-size:36px;
     transition: left 0.6s ease-out;
     left:0%;
     filter: drop-shadow(0 2px 1px rgba(0,0,0,0.4));
+    z-index: 2;
   }
   .place-tag{
     position:absolute;
-    top:-8px;
+    top:-10px;
     left:0;
     transform: translateX(-4px);
     font-size:10px;
@@ -217,6 +218,7 @@
     padding:1px 5px;
     border-radius:8px;
     transition: left 0.6s ease-out;
+    z-index: 3;
   }
   .finish-line{
     position:absolute;
@@ -309,9 +311,9 @@
 
   .horse.burst-anim{ animation: horseBurst 0.55s ease; }
   @keyframes horseBurst{
-    0%{ transform: translate(-6px,-50%) scale(1); }
-    35%{ transform: translate(-6px,-58%) scale(1.35); }
-    100%{ transform: translate(-6px,-50%) scale(1); }
+    0%{ transform: translate(-8px,-50%) scale(1); }
+    35%{ transform: translate(-8px,-60%) scale(1.35); }
+    100%{ transform: translate(-8px,-50%) scale(1); }
   }
 
   .spark-particle{
@@ -414,7 +416,7 @@
     <!-- START SCREEN -->
     <div id="start-screen">
       <span class="cat-badge">4&nbsp;LEGS&nbsp;&middot;&nbsp;TIMED&nbsp;RACE</span>
-      <p>Every correct answer gives your horse a gallop forward and adds 5 seconds to the clock (up to a cap, so a leg always keeps moving). Get <strong>3 in a row</strong> and your horse breaks into a Hot Streak &mdash; a big burst forward. Nothing here gets saved &mdash; it's just a fun lap before the End-of-Step check.</p>
+      <p>Every correct answer gives your horse a gallop forward and adds 5 seconds to the clock (up to a cap, so a leg always keeps moving). Get <strong>3 in a row</strong> and your horse breaks into a Hot Streak &mdash; a big burst forward. Each leg is its own mini-race: first horse to the line wins that leg, and whoever wins the most legs takes the Derby. Nothing here gets saved &mdash; it's just a fun lap before the End-of-Step check.</p>
       <div class="leg-preview">
         <div class="leg-chip"><div class="rn">LEG 1</div><div class="rt">Welded sounds (ang, ank, onk...)</div></div>
         <div class="leg-chip"><div class="rn">LEG 2</div><div class="rt">2-letter blends &amp; digraphs</div></div>
@@ -646,10 +648,12 @@ let transitioning = false;
 
 const horses = {
   you:    { pos:0, speed:0,    variance:0,    isPlayer:true },
-  blaze:  { pos:0, speed:0.40, variance:0.15 },
-  dash:   { pos:0, speed:0.30, variance:0.25 },
-  runner: { pos:0, speed:0.35, variance:0.10 }
+  blaze:  { pos:0, speed:0.85, variance:0.30 },
+  dash:   { pos:0, speed:0.70, variance:0.45 },
+  runner: { pos:0, speed:0.95, variance:0.20 }
 };
+const names = { you:"You", blaze:"Blend Blazer", dash:"Digraph Dash", runner:"Base Runner" };
+let legWins = { you:0, blaze:0, dash:0, runner:0 };
 
 function shuffle(arr){
   const a = arr.slice();
@@ -673,6 +677,7 @@ function startGame(){
   buildPools();
   score = 0; streak = 0; bestStreak = 0; answered = 0; locked = false; transitioning = false;
   currentRoundIdx = 0;
+  legWins = { you:0, blaze:0, dash:0, runner:0 };
   Object.keys(horses).forEach(k=>{ horses[k].pos = 0; });
   updateTrack();
 
@@ -688,6 +693,8 @@ function beginRound(idx){
   const r = rounds[idx];
   timeLeft = BASE_TIME;
   refillQueueForRound(idx);
+  Object.keys(horses).forEach(k=>{ horses[k].pos = 0; });
+  updateTrack();
 
   document.getElementById('round-num').textContent = r.num;
   document.getElementById('round-title').textContent = r.title;
@@ -712,14 +719,45 @@ function tick(){
   });
   updateTrack();
 
+  const winner = checkFinish();
+  if(winner){
+    finishLeg(winner);
+    return;
+  }
+
   if(timeLeft <= 0){
     clearInterval(timerInterval);
-    if(currentRoundIdx < rounds.length - 1){
-      beginRound(currentRoundIdx + 1);
-    } else {
-      endGame();
-    }
+    finishLeg(leaderKey()); // nobody crossed the line in time - the leg goes to whoever's furthest
   }
+}
+
+function checkFinish(){
+  return Object.keys(horses).find(k => horses[k].pos >= 100) || null;
+}
+
+function leaderKey(){
+  return Object.keys(horses).slice().sort((a,b)=>horses[b].pos - horses[a].pos)[0];
+}
+
+function finishLeg(winnerKey){
+  clearInterval(timerInterval);
+  legWins[winnerKey] = (legWins[winnerKey] || 0) + 1;
+  const isLast = currentRoundIdx >= rounds.length - 1;
+
+  transitioning = true;
+  const overlay = document.getElementById('round-overlay');
+  document.getElementById('overlay-rn').textContent = winnerKey==='you' ? "YOU WIN THE LEG!" : names[winnerKey].toUpperCase() + " WINS THE LEG";
+  document.getElementById('overlay-rt').textContent = isLast ? "Photo finish\u2026" : "Next leg coming up\u2026";
+  overlay.classList.add('show');
+
+  setTimeout(()=>{
+    overlay.classList.remove('show');
+    if(isLast){
+      endGame();
+    } else {
+      beginRound(currentRoundIdx + 1);
+    }
+  }, 1300);
 }
 
 function showRoundOverlay(r, callback){
@@ -757,7 +795,7 @@ function nextQuestion(){
   const item = queue.shift();
   locked = false;
   document.getElementById('cat-badge').textContent = item.cat;
-  document.getElementById('prompt').innerHTML = item.q;
+  document.getElementById('prompt').innerHTML = '<span class="prompt-inner">' + item.q + '</span>';
 
   const choicesEl = document.getElementById('choices');
   choicesEl.innerHTML = '';
@@ -791,6 +829,12 @@ function handleAnswer(btn, isCorrect){
     const step = isBurst ? PLAYER_STEP + BURST_BONUS : PLAYER_STEP;
     horses.you.pos = Math.min(100, horses.you.pos + step);
     updateTrack();
+
+    const winner = checkFinish();
+    if(winner){
+      finishLeg(winner);
+      return;
+    }
 
     if(isBurst){
       flashMsg('HOT STREAK! \ud83d\udd25', true, true);
@@ -855,22 +899,25 @@ function endGame(){
   document.getElementById('game-screen').style.display = 'none';
   document.getElementById('end-screen').style.display = 'block';
 
-  const names = { you:"You", blaze:"Blend Blazer", dash:"Digraph Dash", runner:"Base Runner" };
   const medals = ["\ud83e\udd47","\ud83e\udd48","\ud83e\udd49","4th"];
-  const order = Object.keys(horses).slice().sort((a,b)=>horses[b].pos - horses[a].pos);
+  const order = Object.keys(horses).slice().sort((a,b)=>{
+    if(legWins[b] !== legWins[a]) return legWins[b] - legWins[a];
+    return horses[b].pos - horses[a].pos;
+  });
 
   const standingsEl = document.getElementById('standings');
   standingsEl.innerHTML = '';
   order.forEach((key, i)=>{
     const li = document.createElement('li');
     if(key==='you') li.classList.add('me');
-    li.innerHTML = `<span class="medal">${medals[i]}</span> ${names[key]}`;
+    const legLabel = legWins[key]===1 ? '1 leg won' : legWins[key]+' legs won';
+    li.innerHTML = `<span class="medal">${medals[i]}</span> ${names[key]} \u2014 ${legLabel}`;
     standingsEl.appendChild(li);
   });
 
   const place = order.indexOf('you') + 1;
   const placeWord = place===1 ? "1st" : place===2 ? "2nd" : place===3 ? "3rd" : "4th";
-  document.getElementById('tier-title').textContent = `You placed ${placeWord}!`;
+  document.getElementById('tier-title').textContent = `You placed ${placeWord}! (${legWins.you} of 4 legs)`;
 
   let sub;
   if(place===1) sub = "Out front the whole way \u2014 ready for the End-of-Step check.";
