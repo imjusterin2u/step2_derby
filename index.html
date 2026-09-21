@@ -3,19 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Weld Shop: Step 2 Speed Sprint</title>
+<title>The Step 2 Derby</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --steel: #24313F;
-    --steel-dark: #182028;
-    --spark: #E8590C;
-    --spark-bright: #FF7A29;
-    --caution: #F4B400;
-    --paper: #F5F1E8;
-    --ink: #1A1A1A;
+    --rail: #1B4332;
+    --rail-dark: #12301F;
+    --dirt: #8A5A3B;
+    --dirt-dark: #6B4226;
+    --paper: #F5EFE0;
+    --ink: #241C12;
+    --gold: #C9A227;
+    --you: #C0392B;
+    --blaze: #2C6E9E;
+    --dash: #C9A227;
+    --runner: #3C7A5B;
     --good: #2E8B57;
     --bad: #C0392B;
   }
@@ -25,7 +29,7 @@
     background: var(--paper);
     background-image:
       linear-gradient(var(--paper), var(--paper)),
-      repeating-linear-gradient(135deg, rgba(26,26,26,0.035) 0 2px, transparent 2px 14px);
+      repeating-linear-gradient(135deg, rgba(36,28,18,0.035) 0 2px, transparent 2px 14px);
     font-family:'Inter', sans-serif;
     color: var(--ink);
     min-height:100vh;
@@ -34,10 +38,7 @@
     justify-content:center;
     padding: 24px;
   }
-  .rig{
-    width:100%;
-    max-width:640px;
-  }
+  .rig{ width:100%; max-width:880px; }
   header{
     display:flex;
     align-items:flex-end;
@@ -47,35 +48,35 @@
     padding-bottom:12px;
   }
   h1{
-    font-family:'Archivo Black', sans-serif;
-    font-size: clamp(28px, 6vw, 40px);
+    font-family:'Alfa Slab One', serif;
+    font-size: clamp(24px, 4.6vw, 36px);
     margin:0;
-    line-height:0.95;
-    letter-spacing:-0.5px;
+    line-height:1;
+    color: var(--rail);
   }
-  h1 span{ color: var(--spark); }
+  h1 span{ color: var(--you); }
   .tagline{
     margin:4px 0 0;
     font-size:14px;
     font-weight:600;
-    color:#5A5248;
+    color:#6B5E48;
   }
-  .stripe-badge{
-    background: repeating-linear-gradient(45deg, var(--caution), var(--caution) 10px, var(--ink) 10px, var(--ink) 20px);
-    color:transparent;
-    height:10px;
-    width:64px;
-    border-radius:2px;
+  .flag-badge{
+    width:58px; height:40px;
+    background-image: repeating-conic-gradient(var(--ink) 0% 25%, var(--paper) 0% 50%);
+    background-size: 12px 12px;
+    border-radius:3px;
+    border: 2px solid var(--ink);
     flex-shrink:0;
-    margin-bottom:6px;
+    margin-bottom:4px;
   }
 
   .panel{
-    background: var(--steel);
-    border-radius: 14px;
-    padding: 22px;
+    background: var(--rail);
+    border-radius: 16px;
+    padding: 30px 34px;
     color: var(--paper);
-    box-shadow: 0 8px 0 var(--steel-dark);
+    box-shadow: 0 8px 0 var(--rail-dark);
     position:relative;
     overflow:hidden;
   }
@@ -83,67 +84,147 @@
   /* --- start screen --- */
   #start-screen p{
     font-size:15px;
-    line-height:1.55;
-    color:#D9D3C4;
+    line-height:1.6;
+    color:#DCE6DE;
     margin: 0 0 16px;
+    max-width: 64ch;
   }
-  #start-screen ul{
-    margin:0 0 20px;
-    padding-left:18px;
-    color:#D9D3C4;
-    font-size:14px;
-    line-height:1.7;
+  .leg-preview{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:10px;
+    margin: 0 0 18px;
   }
+  .leg-chip{
+    border:1px solid #2E5A44;
+    background: rgba(0,0,0,0.15);
+    border-radius:10px;
+    padding:10px 13px;
+  }
+  .leg-chip .rn{
+    font-family:'Alfa Slab One', serif;
+    font-size:12px;
+    color: var(--gold);
+    margin-bottom:3px;
+  }
+  .leg-chip .rt{ font-size:12.5px; color:#DCE6DE; line-height:1.4; }
+
+  .horse-key{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    margin: 0 0 22px;
+    font-size:13px;
+    color:#DCE6DE;
+  }
+  .horse-key .hk-item{ display:flex; align-items:center; gap:6px; }
+  .silk{ width:14px; height:14px; border-radius:50%; display:inline-block; flex-shrink:0; }
+
   .go-btn{
     display:block;
     width:100%;
     border:none;
-    background: var(--spark);
+    background: var(--you);
     color:#fff;
-    font-family:'Archivo Black', sans-serif;
-    font-size:20px;
-    padding:16px;
+    font-family:'Alfa Slab One', serif;
+    font-size:19px;
+    padding:18px;
     border-radius:10px;
     cursor:pointer;
     letter-spacing:0.5px;
-    box-shadow: 0 5px 0 #A83E08;
+    box-shadow: 0 5px 0 #7E2116;
     transition: transform 0.05s ease;
   }
-  .go-btn:active{ transform: translateY(4px); box-shadow: 0 1px 0 #A83E08; }
+  .go-btn:active{ transform: translateY(4px); box-shadow: 0 1px 0 #7E2116; }
 
   /* --- HUD --- */
   .hud{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:14px;
-    font-family:'Archivo Black', sans-serif;
+    margin-bottom:16px;
   }
-  .hud-item{ text-align:center; }
+  .hud-item{ text-align:center; min-width:64px; }
   .hud-label{
-    font-family:'Inter',sans-serif;
     font-size:10px;
     letter-spacing:1px;
-    color:#9AA6B0;
+    color:#A9C2AE;
     font-weight:700;
   }
-  .hud-value{ font-size:26px; }
-  #timer-value{ color: var(--caution); }
-  #streak-value{ color: var(--spark-bright); }
+  .hud-value{ font-family:'Alfa Slab One', serif; font-size:24px; }
+  #timer-value{ color: var(--gold); }
+  #streak-value{ color: #E8A33D; }
+  .leg-label{ text-align:center; }
+  .leg-label .rn{ font-family:'Alfa Slab One', serif; font-size:15px; color: var(--gold); }
+  .leg-label .rt{ font-size:10.5px; color:#A9C2AE; font-weight:700; letter-spacing:0.5px; }
 
-  .timer-track{
-    height:10px;
-    width:100%;
-    background: var(--steel-dark);
-    border-radius:6px;
-    overflow:hidden;
-    margin-bottom:18px;
+  /* --- track --- */
+  .track{
+    background: var(--dirt);
+    background-image: repeating-linear-gradient(90deg, rgba(0,0,0,0.06) 0 2px, transparent 2px 22px);
+    border: 3px solid var(--dirt-dark);
+    border-radius:10px;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    position:relative;
   }
-  #timer-fill{
+  .lane{
+    display:flex;
+    align-items:center;
+    height:40px;
+    position:relative;
+    border-bottom: 1px dashed rgba(255,255,255,0.18);
+  }
+  .lane:last-child{ border-bottom:none; }
+  .lane-label{
+    width:96px;
+    flex-shrink:0;
+    font-size:11px;
+    font-weight:800;
+    padding-left:10px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:#FBF6E9;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .lane-track{
+    position:relative;
+    flex:1;
     height:100%;
-    width:100%;
-    background: linear-gradient(90deg, var(--caution), var(--spark));
-    transition: width 1s linear;
+  }
+  .horse{
+    position:absolute;
+    top:50%;
+    transform: translate(-6px, -50%);
+    font-size:22px;
+    transition: left 0.6s ease-out;
+    left:0%;
+    filter: drop-shadow(0 2px 1px rgba(0,0,0,0.4));
+  }
+  .place-tag{
+    position:absolute;
+    top:-8px;
+    left:0;
+    transform: translateX(-4px);
+    font-size:10px;
+    font-weight:800;
+    background: var(--gold);
+    color: var(--ink);
+    padding:1px 5px;
+    border-radius:8px;
+    transition: left 0.6s ease-out;
+  }
+  .finish-line{
+    position:absolute;
+    top:4px; bottom:4px;
+    right:4%;
+    width:8px;
+    background-image: repeating-linear-gradient(0deg, #fff 0 6px, #111 6px 12px);
+    border-radius:2px;
   }
 
   .cat-badge{
@@ -151,52 +232,55 @@
     font-size:11px;
     font-weight:800;
     letter-spacing:1px;
-    background: rgba(232,89,12,0.18);
-    color: var(--spark-bright);
-    border: 1px solid var(--spark);
-    padding:4px 10px;
+    background: rgba(201,162,39,0.18);
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding:5px 12px;
     border-radius:20px;
-    margin-bottom:12px;
+    margin-bottom:18px;
   }
 
   #prompt{
-    font-family:'Archivo Black', sans-serif;
-    font-size: clamp(22px, 6vw, 30px);
-    line-height:1.15;
-    margin: 0 0 20px;
-    min-height: 68px;
+    font-family:'Alfa Slab One', serif;
+    font-size: clamp(19px, 3.2vw, 25px);
+    line-height:1.45;
+    margin: 0 0 26px;
+    min-height: 90px;
     display:flex;
     align-items:center;
+    color:#FBF6E9;
   }
-  #prompt .word{ color: var(--caution); }
+  #prompt .word{ color: var(--gold); }
 
   .choices{
     display:grid;
     grid-template-columns: 1fr 1fr;
-    gap:10px;
+    gap:14px;
   }
   .choice-btn{
-    background: #33424F;
+    background: #234C39;
     color: var(--paper);
-    border: 2px solid #445260;
+    border: 2px solid #336249;
     border-radius:10px;
-    padding:14px 10px;
-    font-size:16px;
+    padding:16px 14px;
+    font-size:15.5px;
+    line-height:1.35;
     font-weight:700;
     cursor:pointer;
     font-family:'Inter', sans-serif;
     transition: background 0.12s ease, transform 0.05s ease;
+    min-height: 56px;
   }
-  .choice-btn:hover{ background:#3D4E5C; }
+  .choice-btn:hover{ background:#2B5C45; }
   .choice-btn:active{ transform: scale(0.98); }
   .choice-btn.correct{ background: var(--good); border-color: var(--good); }
   .choice-btn.incorrect{ background: var(--bad); border-color: var(--bad); }
 
   .flash-msg{
     position:absolute;
-    top:18px; right:18px;
-    font-family:'Archivo Black', sans-serif;
-    font-size:14px;
+    top:26px; right:26px;
+    font-family:'Alfa Slab One', serif;
+    font-size:13px;
     padding:6px 12px;
     border-radius:20px;
     opacity:0;
@@ -211,55 +295,106 @@
   }
   .flash-good{ background: var(--good); color:#fff; }
   .flash-bad{ background: var(--bad); color:#fff; }
+  .flash-burst{
+    background: var(--gold); color: var(--ink);
+    font-size:16px; padding:8px 16px;
+  }
+  .flash-msg.burst.show{ animation: burstPop 0.9s ease forwards; }
+  @keyframes burstPop{
+    0%{ opacity:0; transform: translateY(-6px) scale(0.85); }
+    18%{ opacity:1; transform: translateY(0) scale(1.15); }
+    75%{ opacity:1; transform: scale(1.05); }
+    100%{ opacity:0; transform: translateY(-4px) scale(1); }
+  }
 
-  /* spark particles */
+  .horse.burst-anim{ animation: horseBurst 0.55s ease; }
+  @keyframes horseBurst{
+    0%{ transform: translate(-6px,-50%) scale(1); }
+    35%{ transform: translate(-6px,-58%) scale(1.35); }
+    100%{ transform: translate(-6px,-50%) scale(1); }
+  }
+
   .spark-particle{
     position:absolute;
     width:6px; height:6px;
-    background: var(--caution);
+    background: var(--gold);
     border-radius:50%;
     pointer-events:none;
+    z-index: 6;
   }
+
+  /* round transition overlay */
+  .round-overlay{
+    position:absolute;
+    inset:0;
+    background: var(--rail-dark);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 20px;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+  }
+  .round-overlay.show{ opacity:1; pointer-events:all; }
+  .round-overlay .rn-big{
+    font-family:'Alfa Slab One', serif;
+    font-size: clamp(26px,5.5vw,36px);
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .round-overlay .rt-big{ font-size:15px; color:#DCE6DE; max-width: 42ch; line-height:1.5; }
 
   /* --- end screen --- */
   #end-screen{ display:none; text-align:center; }
   #end-screen .tier{
-    font-family:'Archivo Black', sans-serif;
-    font-size: clamp(26px,7vw,34px);
-    color: var(--caution);
-    margin: 4px 0 2px;
+    font-family:'Alfa Slab One', serif;
+    font-size: clamp(24px,6vw,32px);
+    color: var(--gold);
+    margin: 4px 0 4px;
   }
-  #end-screen .tier-sub{
-    color:#D9D3C4;
+  #end-screen .tier-sub{ color:#DCE6DE; font-size:14px; margin: 0 0 22px; }
+  .standings{
+    list-style:none;
+    margin:0 0 24px;
+    padding:0;
+    max-width: 340px;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:left;
+  }
+  .standings li{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background: rgba(0,0,0,0.15);
+    border-radius:8px;
+    padding:9px 12px;
+    margin-bottom:6px;
+    font-weight:700;
     font-size:14px;
-    margin: 0 0 20px;
   }
+  .standings li.me{ background: rgba(192,57,43,0.35); border:1px solid var(--you); }
+  .standings .medal{ width:22px; text-align:center; }
   .results-row{
     display:flex;
     justify-content:center;
-    gap: 28px;
-    margin-bottom: 24px;
+    gap: 30px;
+    margin-bottom: 26px;
   }
-  .result-block .num{
-    font-family:'Archivo Black', sans-serif;
-    font-size: 34px;
-  }
-  .result-block .lbl{
-    font-size:11px;
-    letter-spacing:1px;
-    color:#9AA6B0;
-    font-weight:700;
-  }
+  .result-block .num{ font-family:'Alfa Slab One', serif; font-size: 32px; }
+  .result-block .lbl{ font-size:11px; letter-spacing:1px; color:#A9C2AE; font-weight:700; }
 
-  footer{
-    text-align:center;
-    margin-top:14px;
-    font-size:12px;
-    color:#8A8171;
-  }
+  footer{ text-align:center; margin-top:14px; font-size:12px; color:#8A8171; }
 
-  @media (max-width:420px){
+  @media (max-width:640px){
+    .panel{ padding:22px 18px; }
     .choices{ grid-template-columns: 1fr; }
+    .leg-preview{ grid-template-columns: 1fr; }
+    .lane-label{ width:72px; font-size:10px; }
   }
 </style>
 </head>
@@ -268,167 +403,253 @@
 <div class="rig">
   <header>
     <div>
-      <h1>WELD<span>SHOP</span></h1>
-      <p class="tagline">Wilson Step 2 &middot; Speed Sprint Review</p>
+      <h1>THE STEP 2 <span>DERBY</span></h1>
+      <p class="tagline">Wilson Reading System &middot; horse-race review</p>
     </div>
-    <div class="stripe-badge"></div>
+    <div class="flag-badge"></div>
   </header>
 
   <div class="panel">
 
     <!-- START SCREEN -->
     <div id="start-screen">
-      <span class="cat-badge">60&nbsp;SECOND&nbsp;SPRINT</span>
-      <p>Weld as many sounds, blends, and Latin bases together before the clock runs out. No pressure &mdash; nothing here gets saved. Just a quick, fun tune-up before the End-of-Step check.</p>
-      <ul>
-        <li>Welded sounds (ang, ink, unk...)</li>
-        <li>Blend vs. digraph vs. digraph blend</li>
-        <li>Closed syllable vs. closed-syllable exception</li>
-        <li>Latin base meanings (-rupt-, -struct-, -ject-...)</li>
-      </ul>
-      <button class="go-btn" onclick="startGame()">FIRE UP THE SHOP</button>
+      <span class="cat-badge">4&nbsp;LEGS&nbsp;&middot;&nbsp;TIMED&nbsp;RACE</span>
+      <p>Every correct answer gives your horse a gallop forward and adds 5 seconds to the clock (up to a cap, so a leg always keeps moving). Get <strong>3 in a row</strong> and your horse breaks into a Hot Streak &mdash; a big burst forward. Nothing here gets saved &mdash; it's just a fun lap before the End-of-Step check.</p>
+      <div class="leg-preview">
+        <div class="leg-chip"><div class="rn">LEG 1</div><div class="rt">Welded sounds (ang, ank, onk...)</div></div>
+        <div class="leg-chip"><div class="rn">LEG 2</div><div class="rt">2-letter blends &amp; digraphs</div></div>
+        <div class="leg-chip"><div class="rn">LEG 3</div><div class="rt">3-letter blends &amp; digraph blends</div></div>
+        <div class="leg-chip"><div class="rn">LEG 4</div><div class="rt">Latin bases, both directions</div></div>
+      </div>
+      <div class="horse-key">
+        <div class="hk-item"><span class="silk" style="background:var(--you)"></span>You</div>
+        <div class="hk-item"><span class="silk" style="background:var(--blaze)"></span>Blend Blazer</div>
+        <div class="hk-item"><span class="silk" style="background:var(--dash)"></span>Digraph Dash</div>
+        <div class="hk-item"><span class="silk" style="background:var(--runner)"></span>Base Runner</div>
+      </div>
+      <button class="go-btn" onclick="startGame()">LOAD THE GATE</button>
     </div>
 
     <!-- GAME SCREEN -->
     <div id="game-screen" style="display:none;">
       <div class="hud">
         <div class="hud-item">
-          <div class="hud-label">SCORE</div>
+          <div class="hud-label">CORRECT</div>
           <div class="hud-value" id="score-value">0</div>
+        </div>
+        <div class="leg-label">
+          <div class="rn" id="round-num">LEG 1</div>
+          <div class="rt" id="round-title">WELDED SOUNDS</div>
         </div>
         <div class="hud-item">
           <div class="hud-label">TIME</div>
           <div class="hud-value" id="timer-value">60</div>
         </div>
-        <div class="hud-item">
-          <div class="hud-label">STREAK</div>
-          <div class="hud-value" id="streak-value">0</div>
-        </div>
       </div>
-      <div class="timer-track"><div id="timer-fill"></div></div>
+
+      <div class="track" id="track">
+        <div class="lane" data-horse="you">
+          <div class="lane-label"><span class="silk" style="background:var(--you)"></span>You</div>
+          <div class="lane-track"><div class="place-tag" id="tag-you">1st</div><div class="horse" id="horse-you">🐎</div></div>
+        </div>
+        <div class="lane" data-horse="blaze">
+          <div class="lane-label"><span class="silk" style="background:var(--blaze)"></span>Blazer</div>
+          <div class="lane-track"><div class="place-tag" id="tag-blaze">2nd</div><div class="horse" id="horse-blaze">🐎</div></div>
+        </div>
+        <div class="lane" data-horse="dash">
+          <div class="lane-label"><span class="silk" style="background:var(--dash)"></span>Dash</div>
+          <div class="lane-track"><div class="place-tag" id="tag-dash">3rd</div><div class="horse" id="horse-dash">🐎</div></div>
+        </div>
+        <div class="lane" data-horse="runner">
+          <div class="lane-label"><span class="silk" style="background:var(--runner)"></span>Runner</div>
+          <div class="lane-track"><div class="place-tag" id="tag-runner">4th</div><div class="horse" id="horse-runner">🐎</div></div>
+        </div>
+        <div class="finish-line"></div>
+      </div>
 
       <span class="cat-badge" id="cat-badge">CATEGORY</span>
       <div id="prompt">Loading...</div>
       <div class="choices" id="choices"></div>
       <div class="flash-msg" id="flash-msg"></div>
+
+      <div class="round-overlay" id="round-overlay">
+        <div class="rn-big" id="overlay-rn">LEG 1</div>
+        <div class="rt-big" id="overlay-rt">Riders up&hellip;</div>
+      </div>
     </div>
 
     <!-- END SCREEN -->
     <div id="end-screen">
-      <span class="cat-badge">TIME'S UP</span>
-      <div class="tier" id="tier-title">Apprentice Welder</div>
-      <p class="tier-sub" id="tier-sub">Keep practicing those bases!</p>
+      <span class="cat-badge">PHOTO FINISH</span>
+      <div class="tier" id="tier-title">You placed 1st!</div>
+      <p class="tier-sub" id="tier-sub">Great ride.</p>
+      <ol class="standings" id="standings"></ol>
       <div class="results-row">
-        <div class="result-block">
-          <div class="num" id="final-score">0</div>
-          <div class="lbl">CORRECT</div>
-        </div>
-        <div class="result-block">
-          <div class="num" id="final-streak">0</div>
-          <div class="lbl">BEST STREAK</div>
-        </div>
-        <div class="result-block">
-          <div class="num" id="final-accuracy">0%</div>
-          <div class="lbl">ACCURACY</div>
-        </div>
+        <div class="result-block"><div class="num" id="final-score">0</div><div class="lbl">CORRECT</div></div>
+        <div class="result-block"><div class="num" id="final-streak">0</div><div class="lbl">BEST STREAK</div></div>
+        <div class="result-block"><div class="num" id="final-accuracy">0%</div><div class="lbl">ACCURACY</div></div>
       </div>
       <button class="go-btn" onclick="startGame()">RUN IT AGAIN</button>
     </div>
 
   </div>
-  <footer>Wilson Reading System&reg; Step 2 review &middot; for practice only</footer>
+  <footer>Wilson Reading System&reg; Step 2 review &middot; for practice only &middot; nothing is saved</footer>
 </div>
 
 <script>
+/* ---------------- LEG DEFINITIONS ---------------- */
+const rounds = [
+  { num:"LEG 1", title:"WELDED SOUNDS", overlayTitle:"Welded sounds \u2014 ang, ank, onk, and friends" },
+  { num:"LEG 2", title:"2-LETTER BLENDS & DIGRAPHS", overlayTitle:"Two-letter blends and digraphs" },
+  { num:"LEG 3", title:"3-LETTER BLENDS & DIGRAPH BLENDS", overlayTitle:"Three-letter blends, digraph blends, and closed-syllable exceptions" },
+  { num:"LEG 4", title:"LATIN BASES", overlayTitle:"Latin bases \u2014 meaning to base, and base to meaning" }
+];
+const BASE_TIME = 60;
+const TIME_BONUS = 5;
+const MAX_LEG_TIME = 90; // time bonuses can't stack past this, so a leg always eventually moves on
+const PLAYER_STEP = 3; // % per correct answer
+const BURST_EVERY = 3; // every N in a row triggers a streak burst
+const BURST_BONUS = 6; // extra % gallop on a streak burst
+
 /* ---------------- QUESTION BANK ---------------- */
 const bank = [
-  // Welded sounds
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>bang</span>?", choices:["ang","ing","ank","ong"], a:0},
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>king</span>?", choices:["onk","ing","ank","ung"], a:1},
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>song</span>?", choices:["ung","ong","ang","ink"], a:1},
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>lung</span>?", choices:["ung","ong","unk","ang"], a:0},
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>bank</span>?", choices:["ang","onk","ank","unk"], a:2},
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>think</span>?", choices:["ink","onk","ang","ung"], a:0},
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>honk</span>?", choices:["unk","onk","ink","ong"], a:1},
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>trunk</span>?", choices:["unk","onk","ink","ung"], a:0},
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>fang</span>?", choices:["ang","ank","ong","ing"], a:0},
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>wink</span>?", choices:["ang","ing","ink","unk"], a:2},
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>hung</span>?", choices:["ong","ung","unk","ing"], a:1},
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>rank</span>?", choices:["ank","onk","ung","ing"], a:0},
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>skunk</span>?", choices:["onk","unk","ank","ong"], a:1},
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>ring</span>?", choices:["ang","ing","ink","ong"], a:1},
-  {cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>sank</span>?", choices:["ank","unk","ing","ong"], a:0},
+  // ===== LEG 1: welded sounds =====
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>bang</span>?", choices:["ang","ing","ank","ong"], a:0},
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>king</span>?", choices:["onk","ing","ank","ung"], a:1},
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>song</span>?", choices:["ung","ong","ang","ink"], a:1},
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>lung</span>?", choices:["ung","ong","unk","ang"], a:0},
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>bank</span>?", choices:["ang","onk","ank","unk"], a:2},
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>think</span>?", choices:["ink","onk","ang","ung"], a:0},
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>honk</span>?", choices:["unk","onk","ink","ong"], a:1},
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>trunk</span>?", choices:["unk","onk","ink","ung"], a:0},
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>fang</span>?", choices:["ang","ank","ong","ing"], a:0},
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>wink</span>?", choices:["ang","ing","ink","unk"], a:2},
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>hung</span>?", choices:["ong","ung","unk","ing"], a:1},
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>rank</span>?", choices:["ank","onk","ung","ing"], a:0},
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>skunk</span>?", choices:["onk","unk","ank","ong"], a:1},
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>ring</span>?", choices:["ang","ing","ink","ong"], a:1},
+  {round:1, cat:"WELDED SOUND", q:"Which welded sound is in <span class='word'>sank</span>?", choices:["ank","unk","ing","ong"], a:0},
+  // suffix -s, welded-sound words
+  {round:1, cat:"SUFFIX -S", q:"What do you get when you add <span class='word'>-s</span> to 'bank'?", choices:["banks","bankes","banckks","bansk"], a:0},
+  {round:1, cat:"SUFFIX -S", q:"What do you get when you add <span class='word'>-s</span> to 'king'?", choices:["kingies","kings","kinges","kigns"], a:1},
+  {round:1, cat:"SUFFIX -S", q:"What do you get when you add <span class='word'>-s</span> to 'think'?", choices:["thinkes","thinks","thinkies","thinsk"], a:1},
+  {round:1, cat:"SUFFIX -S", q:"What do you get when you add <span class='word'>-s</span> to 'song'?", choices:["songes","songies","songs","sogns"], a:2},
 
-  // Blend / digraph / digraph blend
-  {cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>ship</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:1},
-  {cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>slip</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:0},
-  {cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>lunch</span> a blend, digraph, or digraph blend?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:2},
-  {cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>shred</span> a blend, digraph, or digraph blend?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:2},
-  {cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>flag</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:0},
-  {cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>chat</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:1},
-  {cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>throb</span> a blend, digraph, or digraph blend?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:2},
-  {cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>shrimp</span> a blend, digraph, or digraph blend?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:2},
-  {cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>crust</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:0},
-  {cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>shop</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:1},
-  {cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>flask</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:0},
-  {cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>shrug</span> a blend, digraph, or digraph blend?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:2},
-  {cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>chomp</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:1},
-  {cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>stomp</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:0},
+  // ===== LEG 2: two-letter blends & digraphs =====
+  {round:2, cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>ship</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:1},
+  {round:2, cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>slip</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:0},
+  {round:2, cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>flag</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:0},
+  {round:2, cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>chat</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:1},
+  {round:2, cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>crust</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:0},
+  {round:2, cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>shop</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:1},
+  {round:2, cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>flask</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:0},
+  {round:2, cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>chomp</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:1},
+  {round:2, cat:"BLEND OR DIGRAPH?", q:"Is <span class='word'>stomp</span> a blend or a digraph?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:0},
+  // suffix -s / -es, 2-letter blend & digraph words
+  {round:2, cat:"SUFFIX -S / -ES", q:"What do you get when you add a suffix to 'flag'?", choices:["flages","flags","flagies","flagz"], a:1},
+  {round:2, cat:"SUFFIX -S / -ES", q:"What do you get when you add a suffix to 'crash'?", choices:["crashs","crashes","crashies","crashe's"], a:1},
+  {round:2, cat:"SUFFIX -S / -ES", q:"What do you get when you add a suffix to 'shop'?", choices:["shopes","shops","shopies","shopz"], a:1},
+  {round:2, cat:"SUFFIX -S / -ES", q:"What do you get when you add a suffix to 'brush'?", choices:["brushs","brushes","brushies","brushe's"], a:1},
 
-  // Closed vs exception
-  {cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>cat</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:0},
-  {cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>wild</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:1},
-  {cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>find</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:1},
-  {cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>cold</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:1},
-  {cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>colt</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:1},
-  {cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>most</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:1},
-  {cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>lost</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:0},
-  {cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>job</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:0},
-  {cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>gold</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:1},
-  {cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>told</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:1},
-  {cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>mist</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:0},
-  {cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>mild</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:1},
-  {cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>cost</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:0},
-
-  // Latin base meanings
-  {cat:"LATIN BASE", q:"What does <span class='word'>-rupt-</span> mean?", choices:["Break","Build","Throw","Send"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-struct-</span> mean?", choices:["Build","Break","Hang","Cut"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-ject-</span> mean?", choices:["Throw","Drive/push","Gather","Touch"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-pend-</span> mean?", choices:["Hang","Order","Conquer","Feel"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-dict-</span> mean?", choices:["Say/tell","Lead","Bend/curve","Draw"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-duct-</span> mean?", choices:["Lead","Cut","Strike down","Agree"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-fect-</span> mean?", choices:["Make/do","Push","Ruled/sight","Look/see"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-spect-</span> mean?", choices:["Look/see/appear","Throw","Gather","Stretch"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-tract-</span> mean?", choices:["Draw","Touch","Conquer","Cut"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-vict-</span> mean?", choices:["Conquer","Come","Stand","Order"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-mand-</span> mean?", choices:["Order","Send","Drive/push","Feel"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-mit-</span> mean?", choices:["Send","Push","Gather","Ruled/sight"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-pel-</span> mean?", choices:["Drive/push","Stand","Hang","Cut"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-sist-</span> mean?", choices:["Place/stand","Feel","Order","Gather"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-tend-</span> mean?", choices:["Stretch/reach","Cut","Draw","Conquer"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-vent-</span> mean?", choices:["Come","Throw","Hang","Order"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-sect-</span> mean?", choices:["Cut","Build","Drive/push","Feel"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-fess-</span> mean?", choices:["Acknowledge","Throw","Hang","Draw"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-gress-</span> mean?", choices:["Step/degree","Cut","Stand","Come"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-press-</span> mean?", choices:["Press/push against","Throw","Lead","Order"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-sent-</span> mean?", choices:["Feel/perceive","Cut","Drive/push","Throw"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-stant-</span> mean?", choices:["Standing","Hanging","Throwing","Ordering"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-sult-</span> mean?", choices:["Spring forward/leap","Cut","Press","Gather"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-tent-</span> mean?", choices:["Stretch/reach","Order","Conquer","Push"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-flect-</span> mean?", choices:["Bend/curve","Cut","Hang","Lead"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-flict-</span> mean?", choices:["Strike to the ground","Come","Order","Build"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-lect-</span> mean?", choices:["Gather/choose/read","Push","Cut","Hang"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-pact-</span> mean?", choices:["Fastened/agreed","Throw","Bend","Lead"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-rect-</span> mean?", choices:["Ruled/sight","Cut","Stand","Push"], a:0},
-  {cat:"LATIN BASE", q:"What does <span class='word'>-tact-</span> mean?", choices:["Touch","Throw","Gather","Order"], a:0},
+  // ===== LEG 3: three-letter blends & digraph blends =====
+  {round:3, cat:"BLEND, DIGRAPH, OR DIGRAPH BLEND?", q:"Is <span class='word'>lunch</span> a blend, digraph, or digraph blend?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:2},
+  {round:3, cat:"BLEND, DIGRAPH, OR DIGRAPH BLEND?", q:"Is <span class='word'>shred</span> a blend, digraph, or digraph blend?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:2},
+  {round:3, cat:"BLEND, DIGRAPH, OR DIGRAPH BLEND?", q:"Is <span class='word'>throb</span> a blend, digraph, or digraph blend?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:2},
+  {round:3, cat:"BLEND, DIGRAPH, OR DIGRAPH BLEND?", q:"Is <span class='word'>shrimp</span> a blend, digraph, or digraph blend?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:2},
+  {round:3, cat:"BLEND, DIGRAPH, OR DIGRAPH BLEND?", q:"Is <span class='word'>shrug</span> a blend, digraph, or digraph blend?", choices:["Blend","Digraph","Digraph Blend","Welded Sound"], a:2},
+  {round:3, cat:"BLEND, DIGRAPH, OR DIGRAPH BLEND?", q:"Is <span class='word'>strap</span> a two-letter or three-letter blend?", choices:["Three-letter blend","Two-letter blend","Digraph blend","Digraph"], a:0},
+  {round:3, cat:"BLEND, DIGRAPH, OR DIGRAPH BLEND?", q:"Is <span class='word'>scrap</span> a two-letter or three-letter blend?", choices:["Three-letter blend","Two-letter blend","Digraph blend","Digraph"], a:0},
+  {round:3, cat:"BLEND, DIGRAPH, OR DIGRAPH BLEND?", q:"Is <span class='word'>splash</span> a two-letter or three-letter blend?", choices:["Three-letter blend","Two-letter blend","Digraph blend","Digraph"], a:0},
+  {round:3, cat:"BLEND, DIGRAPH, OR DIGRAPH BLEND?", q:"Is <span class='word'>sprint</span> a two-letter or three-letter blend?", choices:["Three-letter blend","Two-letter blend","Digraph blend","Digraph"], a:0},
+  {round:3, cat:"BLEND, DIGRAPH, OR DIGRAPH BLEND?", q:"Is <span class='word'>script</span> a two-letter or three-letter blend?", choices:["Three-letter blend","Two-letter blend","Digraph blend","Digraph"], a:0},
+  // closed syllable vs exception
+  {round:3, cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>cat</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:0},
+  {round:3, cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>wild</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:1},
+  {round:3, cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>find</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:1},
+  {round:3, cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>cold</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:1},
+  {round:3, cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>most</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:1},
+  {round:3, cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>lost</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:0},
+  {round:3, cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>job</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:0},
+  {round:3, cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>gold</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:1},
+  {round:3, cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>mist</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:0},
+  {round:3, cat:"CLOSED OR EXCEPTION?", q:"Is <span class='word'>cost</span> a closed syllable or a closed-syllable exception?", choices:["Closed Syllable","Exception"], a:0},
+  // suffix -s / -es, 3-letter blend & digraph blend words
+  {round:3, cat:"SUFFIX -S / -ES", q:"What do you get when you add a suffix to 'scrap'?", choices:["scrapes","scraps","scrapies","scrapz"], a:1},
+  {round:3, cat:"SUFFIX -S / -ES", q:"What do you get when you add a suffix to 'strap'?", choices:["strapes","straps","strapies","strapz"], a:1},
+  {round:3, cat:"SUFFIX -S / -ES", q:"What do you get when you add a suffix to 'shred'?", choices:["shredes","shreds","shredies","shredz"], a:1},
+  {round:3, cat:"SUFFIX -S / -ES", q:"What do you get when you add a suffix to 'splash'?", choices:["splashs","splashes","splashies","splashe's"], a:1},
+  {round:3, cat:"SUFFIX -S / -ES", q:"What do you get when you add a suffix to 'lunch'?", choices:["lunchs","lunches","lunchies","lunche's"], a:1},
 ];
 
+/* ---------------- LATIN BASES (leg 4, generated both directions) ---------------- */
+const latinBases = [
+  {base:"-rupt-", meaning:"Break"},
+  {base:"-struct-", meaning:"Build"},
+  {base:"-ject-", meaning:"Throw"},
+  {base:"-pend-", meaning:"Hang"},
+  {base:"-dict-", meaning:"Say or tell"},
+  {base:"-duct-", meaning:"Lead"},
+  {base:"-fect-", meaning:"Make or do"},
+  {base:"-spect-", meaning:"Look, see, or appear"},
+  {base:"-tract-", meaning:"Draw"},
+  {base:"-vict-", meaning:"Conquer"},
+  {base:"-mand-", meaning:"Order"},
+  {base:"-mit-", meaning:"Send"},
+  {base:"-pel-", meaning:"Drive or push"},
+  {base:"-sist-", meaning:"Place or stand"},
+  {base:"-tend-", meaning:"Stretch or reach"},
+  {base:"-vent-", meaning:"Come"},
+  {base:"-sect-", meaning:"Cut"},
+  {base:"-fess-", meaning:"Acknowledge"},
+  {base:"-gress-", meaning:"Step or degree"},
+  {base:"-press-", meaning:"Press or push against"},
+  {base:"-sent-", meaning:"Feel or perceive"},
+  {base:"-stant-", meaning:"Standing"},
+  {base:"-sult-", meaning:"Spring forward or leap"},
+  {base:"-flect-", meaning:"Bend or curve"},
+  {base:"-flict-", meaning:"Strike to the ground"},
+  {base:"-lect-", meaning:"Gather, choose, or read"},
+  {base:"-pact-", meaning:"Fastened or agreed"},
+  {base:"-rect-", meaning:"Ruled or sight"},
+  {base:"-tact-", meaning:"Touch"}
+];
+
+function buildLatinQuestions(){
+  const qs = [];
+  latinBases.forEach(item=>{
+    const others = latinBases.filter(o=>o.base!==item.base);
+    const distractorsF = shuffle(others).slice(0,3).map(o=>o.meaning);
+    const choicesF = shuffle([item.meaning, ...distractorsF]);
+    qs.push({ round:4, cat:"LATIN BASE \u2192 MEANING",
+      q:`The base <span class='word'>${item.base}</span> means:`,
+      choices: choicesF, a: choicesF.indexOf(item.meaning) });
+    const reverseCandidates = others.filter(o=>o.meaning!==item.meaning);
+    const distractorsR = shuffle(reverseCandidates).slice(0,3).map(o=>o.base);
+    const choicesR = shuffle([item.base, ...distractorsR]);
+    qs.push({ round:4, cat:"MEANING \u2192 LATIN BASE",
+      q:`Which base means <span class='word'>"${item.meaning.toLowerCase()}"</span>?`,
+      choices: choicesR, a: choicesR.indexOf(item.base) });
+  });
+  return qs;
+}
+
 /* ---------------- GAME STATE ---------------- */
+let fullBank = [];
+let roundPools = [[],[],[],[]];
+let currentRoundIdx = 0;
 let queue = [];
 let score = 0, streak = 0, bestStreak = 0, answered = 0;
-let timeLeft = 60;
+let timeLeft = BASE_TIME;
 let timerInterval = null;
 let locked = false;
+let transitioning = false;
+
+const horses = {
+  you:    { pos:0, speed:0,    variance:0,    isPlayer:true },
+  blaze:  { pos:0, speed:0.40, variance:0.15 },
+  dash:   { pos:0, speed:0.30, variance:0.25 },
+  runner: { pos:0, speed:0.35, variance:0.10 }
+};
 
 function shuffle(arr){
   const a = arr.slice();
@@ -439,42 +660,100 @@ function shuffle(arr){
   return a;
 }
 
-function refillQueue(){
-  queue = queue.concat(shuffle(bank));
+function buildPools(){
+  fullBank = bank.concat(buildLatinQuestions());
+  roundPools = [1,2,3,4].map(n => fullBank.filter(q=>q.round===n));
+}
+
+function refillQueueForRound(idx){
+  queue = shuffle(roundPools[idx]);
 }
 
 function startGame(){
-  score = 0; streak = 0; bestStreak = 0; answered = 0; timeLeft = 60; locked = false;
-  queue = [];
-  refillQueue();
+  buildPools();
+  score = 0; streak = 0; bestStreak = 0; answered = 0; locked = false; transitioning = false;
+  currentRoundIdx = 0;
+  Object.keys(horses).forEach(k=>{ horses[k].pos = 0; });
+  updateTrack();
 
   document.getElementById('start-screen').style.display = 'none';
   document.getElementById('end-screen').style.display = 'none';
   document.getElementById('game-screen').style.display = 'block';
 
-  updateHud();
-  nextQuestion();
+  beginRound(0);
+}
 
-  clearInterval(timerInterval);
-  timerInterval = setInterval(()=>{
-    timeLeft--;
-    updateHud();
-    document.getElementById('timer-fill').style.width = (timeLeft/60*100)+'%';
-    if(timeLeft <= 0){
-      clearInterval(timerInterval);
+function beginRound(idx){
+  currentRoundIdx = idx;
+  const r = rounds[idx];
+  timeLeft = BASE_TIME;
+  refillQueueForRound(idx);
+
+  document.getElementById('round-num').textContent = r.num;
+  document.getElementById('round-title').textContent = r.title;
+  document.getElementById('timer-value').textContent = timeLeft;
+
+  showRoundOverlay(r, ()=>{
+    nextQuestion();
+    clearInterval(timerInterval);
+    timerInterval = setInterval(tick, 1000);
+  });
+}
+
+function tick(){
+  timeLeft--;
+  document.getElementById('timer-value').textContent = Math.max(timeLeft,0);
+
+  // computer horses advance a little each second
+  ['blaze','dash','runner'].forEach(k=>{
+    const h = horses[k];
+    const jitter = (Math.random()*2 - 1) * h.variance;
+    h.pos = Math.min(100, h.pos + Math.max(0, h.speed + jitter));
+  });
+  updateTrack();
+
+  if(timeLeft <= 0){
+    clearInterval(timerInterval);
+    if(currentRoundIdx < rounds.length - 1){
+      beginRound(currentRoundIdx + 1);
+    } else {
       endGame();
     }
-  }, 1000);
+  }
+}
+
+function showRoundOverlay(r, callback){
+  transitioning = true;
+  const overlay = document.getElementById('round-overlay');
+  document.getElementById('overlay-rn').textContent = r.num;
+  document.getElementById('overlay-rt').textContent = r.overlayTitle;
+  overlay.classList.add('show');
+  setTimeout(()=>{
+    overlay.classList.remove('show');
+    transitioning = false;
+    callback();
+  }, 1300);
 }
 
 function updateHud(){
   document.getElementById('score-value').textContent = score;
-  document.getElementById('timer-value').textContent = timeLeft;
-  document.getElementById('streak-value').textContent = streak;
+}
+
+function updateTrack(){
+  const order = Object.keys(horses).slice().sort((a,b)=>horses[b].pos - horses[a].pos);
+  const ordinals = ["1st","2nd","3rd","4th"];
+  order.forEach((key, i)=>{
+    const h = horses[key];
+    const pct = Math.min(h.pos, 96);
+    document.getElementById('horse-'+key).style.left = pct + '%';
+    const tag = document.getElementById('tag-'+key);
+    tag.style.left = pct + '%';
+    tag.textContent = ordinals[i];
+  });
 }
 
 function nextQuestion(){
-  if(queue.length < 4) refillQueue();
+  if(queue.length < 1) refillQueueForRound(currentRoundIdx);
   const item = queue.shift();
   locked = false;
   document.getElementById('cat-badge').textContent = item.cat;
@@ -483,9 +762,7 @@ function nextQuestion(){
   const choicesEl = document.getElementById('choices');
   choicesEl.innerHTML = '';
 
-  // pair choices with index, shuffle for display
   const order = shuffle(item.choices.map((c,i)=>({text:c, correct:i===item.a})));
-
   order.forEach(opt=>{
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
@@ -496,65 +773,81 @@ function nextQuestion(){
 }
 
 function handleAnswer(btn, isCorrect){
-  if(locked || timeLeft<=0) return;
+  if(locked || timeLeft<=0 || transitioning) return;
   locked = true;
   answered++;
 
-  const allBtns = document.querySelectorAll('.choice-btn');
-  allBtns.forEach(b=>b.onclick=null);
+  document.querySelectorAll('.choice-btn').forEach(b=>b.onclick=null);
 
   if(isCorrect){
     btn.classList.add('correct');
     score++;
     streak++;
     bestStreak = Math.max(bestStreak, streak);
-    flashMsg('NICE WELD!', true);
-    spawnSparks(btn);
+    timeLeft = Math.min(timeLeft + TIME_BONUS, MAX_LEG_TIME);
+    document.getElementById('timer-value').textContent = Math.max(timeLeft,0);
+
+    const isBurst = streak % BURST_EVERY === 0;
+    const step = isBurst ? PLAYER_STEP + BURST_BONUS : PLAYER_STEP;
+    horses.you.pos = Math.min(100, horses.you.pos + step);
+    updateTrack();
+
+    if(isBurst){
+      flashMsg('HOT STREAK! \ud83d\udd25', true, true);
+      const horseEl = document.getElementById('horse-you');
+      horseEl.classList.remove('burst-anim');
+      void horseEl.offsetWidth;
+      horseEl.classList.add('burst-anim');
+      spawnSparks(horseEl);
+    } else {
+      flashMsg('GIDDY UP! +5s', true);
+    }
   } else {
     btn.classList.add('incorrect');
     streak = 0;
-    flashMsg('LOOSE JOINT', false);
-    allBtns.forEach(b=>{ if(b !== btn){} });
+    flashMsg('WHOA THERE', false);
   }
   updateHud();
 
   setTimeout(()=>{
-    if(timeLeft>0) nextQuestion();
+    if(timeLeft>0 && !transitioning) nextQuestion();
   }, 550);
 }
 
-function flashMsg(text, good){
+function flashMsg(text, good, burst){
   const el = document.getElementById('flash-msg');
   el.textContent = text;
-  el.className = 'flash-msg show ' + (good ? 'flash-good' : 'flash-bad');
-  void el.offsetWidth; // restart animation
+  let cls = 'flash-msg show ' + (good ? 'flash-good' : 'flash-bad');
+  if(burst) cls += ' burst flash-burst';
+  el.className = cls;
+  void el.offsetWidth;
   el.classList.remove('show');
   void el.offsetWidth;
   el.classList.add('show');
 }
 
-function spawnSparks(refBtn){
-  const panel = document.querySelector('.panel');
-  const rect = refBtn.getBoundingClientRect();
-  const panelRect = panel.getBoundingClientRect();
-  const originX = rect.left - panelRect.left + rect.width/2;
-  const originY = rect.top - panelRect.top + rect.height/2;
+function spawnSparks(refEl){
+  const track = document.getElementById('track');
+  const rect = refEl.getBoundingClientRect();
+  const trackRect = track.getBoundingClientRect();
+  const originX = rect.left - trackRect.left + rect.width/2;
+  const originY = rect.top - trackRect.top + rect.height/2;
 
-  for(let i=0;i<10;i++){
+  for(let i=0;i<12;i++){
     const p = document.createElement('div');
     p.className = 'spark-particle';
     p.style.left = originX+'px';
     p.style.top = originY+'px';
-    panel.appendChild(p);
+    track.appendChild(p);
     const angle = Math.random()*Math.PI*2;
-    const dist = 30 + Math.random()*40;
+    const dist = 26 + Math.random()*36;
     const dx = Math.cos(angle)*dist;
     const dy = Math.sin(angle)*dist;
     p.animate([
       { transform:'translate(0,0)', opacity:1 },
       { transform:`translate(${dx}px, ${dy}px)`, opacity:0 }
-    ], { duration: 500 + Math.random()*200, easing:'ease-out' });
-    setTimeout(()=>p.remove(), 750);
+    ], { duration: 450 + Math.random()*200, easing:'ease-out' });
+    setTimeout(()=>p.remove(), 700);
   }
 }
 
@@ -562,19 +855,34 @@ function endGame(){
   document.getElementById('game-screen').style.display = 'none';
   document.getElementById('end-screen').style.display = 'block';
 
+  const names = { you:"You", blaze:"Blend Blazer", dash:"Digraph Dash", runner:"Base Runner" };
+  const medals = ["\ud83e\udd47","\ud83e\udd48","\ud83e\udd49","4th"];
+  const order = Object.keys(horses).slice().sort((a,b)=>horses[b].pos - horses[a].pos);
+
+  const standingsEl = document.getElementById('standings');
+  standingsEl.innerHTML = '';
+  order.forEach((key, i)=>{
+    const li = document.createElement('li');
+    if(key==='you') li.classList.add('me');
+    li.innerHTML = `<span class="medal">${medals[i]}</span> ${names[key]}`;
+    standingsEl.appendChild(li);
+  });
+
+  const place = order.indexOf('you') + 1;
+  const placeWord = place===1 ? "1st" : place===2 ? "2nd" : place===3 ? "3rd" : "4th";
+  document.getElementById('tier-title').textContent = `You placed ${placeWord}!`;
+
+  let sub;
+  if(place===1) sub = "Out front the whole way \u2014 ready for the End-of-Step check.";
+  else if(place===2) sub = "Neck and neck the whole race. Run it again for the win.";
+  else if(place===3) sub = "Solid ride \u2014 a few more correct answers and you're in the money.";
+  else sub = "Tough field today \u2014 saddle up and try again.";
+  document.getElementById('tier-sub').textContent = sub;
+
   document.getElementById('final-score').textContent = score;
   document.getElementById('final-streak').textContent = bestStreak;
   const acc = answered ? Math.round((score/answered)*100) : 0;
   document.getElementById('final-accuracy').textContent = acc + '%';
-
-  let tier, sub;
-  if(score >= 30){ tier = "Master Welder"; sub = "Rock solid on Step 2. Ready for the assessment."; }
-  else if(score >= 20){ tier = "Journeyman Welder"; sub = "Strong work \u2014 a couple more rounds and it'll be locked in."; }
-  else if(score >= 10){ tier = "Apprentice Welder"; sub = "Good start! Run it again to build speed."; }
-  else { tier = "Shop Trainee"; sub = "Let's weld a few more sounds together \u2014 try again!"; }
-
-  document.getElementById('tier-title').textContent = tier;
-  document.getElementById('tier-sub').textContent = sub;
 }
 </script>
 </body>
