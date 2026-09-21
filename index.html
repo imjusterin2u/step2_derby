@@ -70,6 +70,20 @@
     flex-shrink:0;
     margin-bottom:4px;
   }
+  .sound-btn{
+    width:40px; height:40px;
+    border-radius:50%;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    font-size:18px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:4px;
+    padding:0;
+  }
+  .sound-btn.muted{ opacity:0.45; }
 
   .panel{
     background: var(--rail);
@@ -205,6 +219,10 @@
     left:0%;
     filter: drop-shadow(0 2px 1px rgba(0,0,0,0.4));
     z-index: 2;
+  }
+  .horse-flip{
+    display:inline-block;
+    transform: scaleX(-1);
   }
   .place-tag{
     position:absolute;
@@ -408,7 +426,10 @@
       <h1>THE STEP 2 <span>DERBY</span></h1>
       <p class="tagline">Wilson Reading System &middot; horse-race review</p>
     </div>
-    <div class="flag-badge"></div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <button id="sound-toggle" class="sound-btn" onclick="toggleSound()" aria-label="Toggle sound">🔊</button>
+      <div class="flag-badge"></div>
+    </div>
   </header>
 
   <div class="panel">
@@ -452,19 +473,19 @@
       <div class="track" id="track">
         <div class="lane" data-horse="you">
           <div class="lane-label"><span class="silk" style="background:var(--you)"></span>You</div>
-          <div class="lane-track"><div class="place-tag" id="tag-you">1st</div><div class="horse" id="horse-you">🐎</div></div>
+          <div class="lane-track"><div class="place-tag" id="tag-you">1st</div><div class="horse" id="horse-you"><span class="horse-flip">🐎</span></div></div>
         </div>
         <div class="lane" data-horse="blaze">
           <div class="lane-label"><span class="silk" style="background:var(--blaze)"></span>Blazer</div>
-          <div class="lane-track"><div class="place-tag" id="tag-blaze">2nd</div><div class="horse" id="horse-blaze">🐎</div></div>
+          <div class="lane-track"><div class="place-tag" id="tag-blaze">2nd</div><div class="horse" id="horse-blaze"><span class="horse-flip">🐎</span></div></div>
         </div>
         <div class="lane" data-horse="dash">
           <div class="lane-label"><span class="silk" style="background:var(--dash)"></span>Dash</div>
-          <div class="lane-track"><div class="place-tag" id="tag-dash">3rd</div><div class="horse" id="horse-dash">🐎</div></div>
+          <div class="lane-track"><div class="place-tag" id="tag-dash">3rd</div><div class="horse" id="horse-dash"><span class="horse-flip">🐎</span></div></div>
         </div>
         <div class="lane" data-horse="runner">
           <div class="lane-label"><span class="silk" style="background:var(--runner)"></span>Runner</div>
-          <div class="lane-track"><div class="place-tag" id="tag-runner">4th</div><div class="horse" id="horse-runner">🐎</div></div>
+          <div class="lane-track"><div class="place-tag" id="tag-runner">4th</div><div class="horse" id="horse-runner"><span class="horse-flip">🐎</span></div></div>
         </div>
         <div class="finish-line"></div>
       </div>
@@ -671,6 +692,66 @@ function buildLatinQuestions(){
   return qs;
 }
 
+/* ---------------- SOUND EFFECTS ---------------- */
+let soundOn = true;
+let audioCtx = null;
+
+function getAudioCtx(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return null;
+    audioCtx = new AC();
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function toggleSound(){
+  soundOn = !soundOn;
+  const btn = document.getElementById('sound-toggle');
+  btn.textContent = soundOn ? '\ud83d\udd0a' : '\ud83d\udd07';
+  btn.classList.toggle('muted', !soundOn);
+  if(soundOn) getAudioCtx();
+}
+
+function tone(freq, start, duration, type, gainPeak){
+  if(!soundOn) return;
+  const ctx = getAudioCtx();
+  if(!ctx) return;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type || 'sine';
+  osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
+  gain.gain.setValueAtTime(0, ctx.currentTime + start);
+  gain.gain.linearRampToValueAtTime(gainPeak || 0.18, ctx.currentTime + start + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + start + duration);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start(ctx.currentTime + start);
+  osc.stop(ctx.currentTime + start + duration + 0.02);
+}
+
+function playCorrect(){
+  tone(880, 0, 0.12, 'triangle', 0.16);
+  tone(1175, 0.09, 0.15, 'triangle', 0.16);
+}
+function playIncorrect(){
+  tone(180, 0, 0.22, 'sawtooth', 0.13);
+}
+function playBurst(){
+  tone(660, 0, 0.1, 'triangle', 0.18);
+  tone(880, 0.08, 0.1, 'triangle', 0.18);
+  tone(1175, 0.16, 0.2, 'triangle', 0.2);
+}
+function playLegWin(){
+  tone(523.25, 0, 0.15, 'square', 0.14);
+  tone(659.25, 0.13, 0.15, 'square', 0.14);
+  tone(783.99, 0.26, 0.28, 'square', 0.16);
+}
+function playGateBell(){
+  tone(1046.5, 0, 0.12, 'sine', 0.18);
+  tone(1046.5, 0.18, 0.12, 'sine', 0.18);
+}
+
 /* ---------------- GAME STATE ---------------- */
 let fullBank = [];
 let roundPools = [[],[],[],[]];
@@ -710,6 +791,8 @@ function refillQueueForRound(idx){
 }
 
 function startGame(){
+  getAudioCtx();
+  playGateBell();
   buildPools();
   score = 0; streak = 0; bestStreak = 0; answered = 0; locked = false; transitioning = false;
   currentRoundIdx = 0;
@@ -778,6 +861,7 @@ function leaderKey(){
 function finishLeg(winnerKey){
   clearInterval(timerInterval);
   legWins[winnerKey] = (legWins[winnerKey] || 0) + 1;
+  playLegWin();
   const isLast = currentRoundIdx >= rounds.length - 1;
 
   transitioning = true;
@@ -873,6 +957,7 @@ function handleAnswer(btn, isCorrect){
     }
 
     if(isBurst){
+      playBurst();
       flashMsg('HOT STREAK! \ud83d\udd25', true, true);
       const horseEl = document.getElementById('horse-you');
       horseEl.classList.remove('burst-anim');
@@ -880,11 +965,13 @@ function handleAnswer(btn, isCorrect){
       horseEl.classList.add('burst-anim');
       spawnSparks(horseEl);
     } else {
+      playCorrect();
       flashMsg('GIDDY UP! +5s', true);
     }
   } else {
     btn.classList.add('incorrect');
     streak = 0;
+    playIncorrect();
     flashMsg('WHOA THERE', false);
   }
   updateHud();
